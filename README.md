@@ -30,9 +30,7 @@ Unlike modern canvas-based games, this engine runs on pure DOM manipulation, cal
 ## 🚀 How to Run
 You can play it directly in your browser:
 
-1.  Clone the repository.
-2.  Open `index.html`.
-3.  Click **START**.
+https://kcisti.github.io/vanilla-js-arcade/
 
 ## 📱 Android Version
 An APK build (wrapped via Apache Cordova/WebView) is available in the [Releases](https://github.com/Kcisti/cube-fall-js/releases) section.
