@@ -1,0 +1,12 @@
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+*.log
+
+.vscode/
+.idea/
+*.swp
+
+node_modules/
+package-lock.json
