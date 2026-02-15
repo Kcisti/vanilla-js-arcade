@@ -7,10 +7,8 @@
 :root{
   --colorBg : #121212;
   --colorBs : #252525;
-      
   --colorTx : #d4d4d4;
   --colorTs : #76ff61;
-      
   --colorCr : #6c4fff;
 }
 
@@ -18,16 +16,10 @@ body{
   background:var(--colorBg);
   overflow: hidden;
 }
-
 @keyframes slowdisappearance {
-  0%{
-    opacity: 100%;
-  }
-  100%{
-    opacity: 0%;
-  }
+  0%{ opacity: 100%; }
+  100%{ opacity: 0%; }
 }
-
 
 .login {
   position: absolute;
@@ -44,95 +36,95 @@ body{
   color: var(--colorTx);
 }
 
-.login-content h1 {
-  font-size: 4rem;
-  font-weight: 900;
+.title {
+  font-size: 1.3rem;
   letter-spacing: 0.2rem;
   margin-bottom: 0.5rem;
-  text-transform: uppercase;
-}
-
-.loading-bar-container {
-  width: 200px;
-  height: 4px;
-  background-color: var(--colorBs);
-  margin: 0 auto 1rem auto;
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.loading-bar {
-  height: 100%;
-  width: 0%;
-  background-color: var(--colorTx); 
-  box-shadow: 0 0 10px var(--colorTx);
-  animation: loadProgress 2.5s ease-in-out forwards;
-}
-
-.loading-text {
-  font-size: 1rem;
   color: var(--colorTx);
-  animation: blink 1s infinite;
-}
-
-
-@keyframes loadProgress {
-  0% { width: 5%; }
-  50% { width: 60%; }
-  100% { width: 100%; }
-}
-
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  text-transform: uppercase;
 }
 
 .home{
   display: flex;
   flex-direction: column;
   justify-content: center;
-  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+#maxScore {
+  font-size: 1.2rem;
+  font-weight: 400;
+  letter-spacing: 2px;
+  color: var(--colorTx);
+  margin-bottom: 1rem;
+  text-align: center;
 }
 
 .home_button {
-  position: absolute;
-  top: 50%; 
-  left: 50%;
-  transform: translate(-50%, -50%); 
-  
-  background-color: transparent;
-  color: var(--colorTx);
+  align-self: center;
+  background-color: var(--colorTx);
+  color: var(--colorBg);
   border: 2px solid var(--colorTx);
-  
-  border-radius: .1em;
-  font-size: 1.5rem; 
+  border-radius: 1.5em;
+  font-size: 1.3rem; 
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   letter-spacing: 0.2rem;
-  
-  padding: 0.8rem 3rem;
+  padding: 0.8rem 4rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  
-  box-shadow: 0 0 10px rgba(118, 255, 97, 0.1); 
+  box-shadow: 0 0 10px rgba(170, 170, 170, 0.309); 
 }
+
+.game-ui {
+  width: 90%;
+  margin-left: 5%;
+  margin-top: 5%;
+  margin-bottom: 5px;
+  
+  display: flex;
+  justify-content: space-between; 
+  align-items: center;            
+
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  color: var(--colorTx);        
+  transition: color 0.5s ease;  
+}
+
+#score {
+  font-weight: 300;
+}
+
+.score-label {
+  font-weight: 700;   
+  opacity: 0.8;
+}
+
+
 
 .game{
   background-color: var(--colorBg);
   height: 32rem;
   width: 90%;
   margin-left: 5%;
-  margin-top: 5%;
+  margin-top: 0;
   position: relative;
   overflow: hidden;
   border: 1px solid var(--colorTx);
+  transition: border-color 0.5s ease;
 }
+
 #character{
   height: 2rem;
   width:2rem;
   position: relative;top: 27.75rem;
   left: 3rem;
   background-color: var(--colorTx);
+  transition: background-color 0.5s ease;
 }
 
 .block{
@@ -142,7 +134,9 @@ body{
   position: relative;
   top: 100px;
   margin-top: -20px;
+  transition: background-color 0.5s ease;
 }
+
 .hole{
   width: 40px;
   height: 20px;
@@ -163,6 +157,7 @@ body{
   color: var(--colorTx);
   font-size: 4.1rem;
 }
+
 #gameButtonLeft{
   width: 50%;
   position:fixed;bottom: 0px;left: 0px;
@@ -173,14 +168,3 @@ body{
   color: var(--colorTx);
   font-size: 4.1rem;
 }
-#gameButtonPause{
-  position: fixed;bottom: 0px;right: 0px;
-  border: none;
-  outline:none;
-  color: var(--colorTx);
-  font-size: 1.5rem;
-  font-variant: small-caps;
-  padding: 0.3rem;
-  background: var(--colorBg);
-}
-
