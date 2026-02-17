@@ -111,6 +111,7 @@ function playGame() {
   let currentBlocks = [];
   let blocks;
   let currentLevelColor = '#d4d4d4'; 
+  let blockSpeed = 0.5;
 
   DOM.score.innerText = "000000";
   DOM.score.style.color = currentLevelColor;
@@ -193,10 +194,22 @@ function playGame() {
     }
 
     const score = counter - 9;
-    if (score == 250) updateGameColors('#b70202');
-    if (score == 500) updateGameColors('#6cd15d');
-    if (score == 750) updateGameColors('#2426cc');
-    if (score == 900) updateGameColors('#6d24cc');
+    if (score == 250) { 
+        updateGameColors('#b70202'); 
+        blockSpeed = 0.6; 
+    }
+    if (score == 500) { 
+        updateGameColors('#6cd15d'); 
+        blockSpeed = 0.75; 
+    }
+    if (score == 750) { 
+        updateGameColors('#2426cc'); 
+        blockSpeed = 0.9; 
+    }
+    if (score == 900) { 
+        updateGameColors('#6d24cc'); 
+        blockSpeed = 1.1;
+    }
 
     for (let i = 0; i < currentBlocks.length; i++) {
       const current = currentBlocks[i];
@@ -208,8 +221,8 @@ function playGame() {
       const iblockTop = parseFloat(window.getComputedStyle(iblock).getPropertyValue('top'));
       const iholeLeft = parseFloat(window.getComputedStyle(ihole).getPropertyValue('left'));
 
-      iblock.style.top = `${iblockTop - 0.5}px`;
-      ihole.style.top = `${iblockTop - 0.5}px`;
+      iblock.style.top = `${iblockTop - blockSpeed}px`;
+      ihole.style.top = `${iblockTop - blockSpeed}px`;
 
       if (iblockTop < -20) {
         currentBlocks.shift();
@@ -230,7 +243,7 @@ function playGame() {
         DOM.character.style.top = `${characterTop + 2}px`;
       }
     } else {
-      DOM.character.style.top = `${characterTop - 0.5}px`;
+      DOM.character.style.top = `${characterTop - blockSpeed}px`;
     }
   }, 1);
 
@@ -243,6 +256,13 @@ function startGame(){
   DOM.game_ui.style.display = 'flex'; 
   if(window.innerWidth<600){
     DOM.game_buttons.style.display = 'block';
+  }
+
+  if(window.innerWidth>850){
+    DOM.game_ui.style.width = '50%';
+    DOM.game_ui.style.marginLeft = '25%';
+    DOM.game.style.width = '50%';
+    DOM.game.style.marginLeft = '25%';
   }
   
   playGame();
