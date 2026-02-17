@@ -5,7 +5,7 @@
   padding: 0;margin: 0;
 }
 :root{
-  --colorBg : #121212;
+  --colorBg : #000000;
   --colorBs : #252525;
   --colorTx : #d4d4d4;
   --colorTs : #76ff61;
@@ -37,7 +37,7 @@ body{
 }
 
 .title {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   letter-spacing: 0.2rem;
   margin-bottom: 0.5rem;
   color: var(--colorTx);
@@ -47,33 +47,37 @@ body{
 .home{
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   height: 100vh;
   width: 100%;
+  font-size: 1rem;
 }
 
 #maxScore {
-  font-size: 1.2rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 2px;
+  width: 100%;
   color: var(--colorTx);
-  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
   text-align: center;
 }
 
 .home_button {
+  font-size: 1.1rem;
   align-self: center;
   background-color: var(--colorTx);
   color: var(--colorBg);
   border: 2px solid var(--colorTx);
-  border-radius: 1.5em;
-  font-size: 1.3rem; 
+  border-radius: 2rem;
   text-transform: uppercase;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: 0.2rem;
   padding: 0.8rem 4rem;
   cursor: pointer;
+  margin-bottom: 6rem;
   transition: all 0.3s ease;
   box-shadow: 0 0 10px rgba(170, 170, 170, 0.309); 
 }
@@ -96,15 +100,13 @@ body{
 }
 
 #score {
-  font-weight: 300;
+  font-weight: 500;
 }
 
 .score-label {
   font-weight: 700;   
   opacity: 0.8;
 }
-
-
 
 .game{
   background-color: var(--colorBg);
@@ -149,7 +151,7 @@ body{
 
 #gameButtonRight{
   position:fixed;bottom: 0px;right: 0px;
-  height: 30%;
+  height: 27%;
   width: 50%;
   background: var(--colorBg);
   border: 0px;
@@ -161,10 +163,71 @@ body{
 #gameButtonLeft{
   width: 50%;
   position:fixed;bottom: 0px;left: 0px;
-  height: 30%;
+  height: 27%;
   background: var(--colorBg);
   border: 0px;
   outline:none;
   color: var(--colorTx);
   font-size: 4.1rem;
+}
+
+
+
+
+.cube{
+  --size: 150px;
+  --cubeColor: #d4d4d4;
+  --scubeColor: #3a3a3a;
+
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  margin-top: auto;
+  margin-bottom: auto;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg);
+  animation: animate 4s linear infinite;
+}
+@keyframes animate {
+  0%{
+    transform: rotateX(-30deg) rotateY(0deg);
+  }
+  100%{
+    transform: rotateX(-30deg) rotateY(360deg);
+  }
+}
+.cube div{
+  position: absolute;
+  top: 0;left:0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+.cube div span{
+  position: absolute;
+  top: 0;left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient( var(--cubeColor),var(--scubeColor));
+  transform: rotateY(calc(90deg * var(--i))) translateZ(calc(var(--size) / 2));
+}
+.top{
+  position: absolute;
+  top: 0;left: 0;
+  background: var(--cubeColor);
+  width: var(--size);
+  height: var(--size);
+  transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+}
+.top::before{
+  content: '';
+  position: absolute;
+  top: 0;left: 0;
+  width: var(--size);
+  height: var(--size);
+  transform: translateZ(calc(var(--size) * -1.5));
+  filter: blur(130px);
+  background: var(--cubeColor);
+  box-shadow: 0 0 120px var(--cubeColor); /
+
 }

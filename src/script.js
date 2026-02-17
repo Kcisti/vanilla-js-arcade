@@ -18,6 +18,36 @@ const DOM = {
 const savedMaxScore = localStorage.getItem('cubeMaxScore') || 0;
 DOM.maxScoreDisplay.innerText = `MAX SCORE: ${savedMaxScore.toString().padStart(6, '0')}`;
 
+
+function updateCubeAppearance(score) {
+    const cube = document.querySelector('.cube');
+    let color = '#d4d4d4';
+    let scolor = '#3a3a3a';
+
+    if (score > 900) {
+        color = '#6d24cc'; 
+        scolor = '#340b69ff';
+    } else if (score > 750) {
+        color = '#2426cc'; 
+        scolor = '#090a57ff';
+    } else if (score > 250) {
+        color = '#6cd15d'; 
+        scolor = '#3c7534ff';
+    } else if (score > 250) {
+        color = '#b70202'; 
+        scolor = '#430101ff';
+    }
+
+    if(cube) {
+        cube.style.setProperty('--cubeColor', color);
+        cube.style.setProperty('--scubeColor', scolor);
+    }
+}
+
+
+updateCubeAppearance(savedMaxScore);
+
+
 DOM.home.style.display = 'none';
 DOM.game.style.display = 'none';
 DOM.game_ui.style.display = 'none'; 
@@ -90,7 +120,12 @@ function playGame() {
       currentLevelColor = newColor;
       DOM.character.style.backgroundColor = currentLevelColor;
       DOM.game_ui.style.color = currentLevelColor;
+      DOM.score.style.color = currentLevelColor;
       DOM.game.style.borderColor = currentLevelColor;
+
+      DOM.gameButtLeft.style.color = currentLevelColor;
+      DOM.gameButtRight.style.color = currentLevelColor;
+
       const activeBlocks = document.querySelectorAll('.block');
       activeBlocks.forEach(block => {
           block.style.backgroundColor = currentLevelColor;
@@ -159,7 +194,7 @@ function playGame() {
 
     const score = counter - 9;
     if (score == 250) updateGameColors('#b70202');
-    if (score == 500) updateGameColors('#76ff61');
+    if (score == 500) updateGameColors('#6cd15d');
     if (score == 750) updateGameColors('#2426cc');
     if (score == 900) updateGameColors('#6d24cc');
 
@@ -206,7 +241,10 @@ function startGame(){
   DOM.home.style.display = 'none';
   DOM.game.style.display = 'block';
   DOM.game_ui.style.display = 'flex'; 
-  DOM.game_buttons.style.display = 'block';
+  if(window.innerWidth<600){
+    DOM.game_buttons.style.display = 'block';
+  }
+  
   playGame();
 }
 
