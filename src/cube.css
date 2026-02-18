@@ -1,0 +1,112 @@
+.cube{
+  --size: 150px;
+  --cubeColor: #d4d4d4;
+  --scubeColor: #3a3a3a;
+  position: relative;
+  width: var(--size);
+  height: var(--size);
+  margin-top: auto;
+  margin-bottom: auto;
+  transform-style: preserve-3d;
+  transform: rotateX(-30deg);
+  animation: animate 4s linear infinite;
+}
+
+@keyframes animate {
+  0%{
+    transform: rotateX(-30deg) rotateY(0deg);
+  }
+  100%{
+    transform: rotateX(-30deg) rotateY(360deg);
+  }
+}
+
+.cube div{
+  position: absolute;
+  top: 0;left:0;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.cube div span{
+  position: absolute;
+  top: 0;left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient( var(--cubeColor),var(--scubeColor));
+  transform: rotateY(calc(90deg * var(--i))) translateZ(calc(var(--size) / 2));
+}
+
+.top{
+  position: absolute;
+  top: 0;left: 0;
+  background: var(--cubeColor);
+  width: var(--size);
+  height: var(--size);
+  transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+}
+
+.top::before{
+  content: '';
+  position: absolute;
+  top: 0;left: 0;
+  width: var(--size);
+  height: var(--size);
+  transform: translateZ(calc(var(--size) * -1.5));
+  filter: blur(130px);
+  background: var(--cubeColor);
+  box-shadow: 0 0 120px var(--cubeColor); /
+}
+
+.skin-selector {
+  display: flex;
+  gap: 15px;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 90%;
+  z-index: 10;
+}
+
+.skin-btn {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  opacity: 0.8;
+}
+
+.skin-btn.selected {
+  transform: scale(1.4);
+  opacity: 1;
+  border-color: var(--colorTx);
+  box-shadow: 0 0 10px currentColor; 
+}
+
+@media screen and (min-width: 430px){
+    .cube{
+        --size: 165px;
+    }
+}
+
+@media screen and (min-width: 530px){
+    .cube{
+        --size: 175px;
+    }
+}
+
+@media screen and (min-width: 630px){
+    .cube{
+        --size: 200px;
+    }
+}
+
+@media screen and (min-width: 830px){
+    .cube{
+        --size: 225px;
+    }  
+}

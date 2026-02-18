@@ -30,7 +30,6 @@ body{
   align-items: center;
   z-index: 100; 
 }
-
 .login-content {
   text-align: center;
   color: var(--colorTx);
@@ -52,7 +51,6 @@ body{
   width: 100%;
   font-size: 1rem;
 }
-
 #maxScore {
   font-weight: 600;
   letter-spacing: 2px;
@@ -64,7 +62,6 @@ body{
   border-bottom-right-radius: 2rem;
   text-align: center;
 }
-
 .home_button {
   font-size: 1.1rem;
   align-self: center;
@@ -98,11 +95,28 @@ body{
   color: var(--colorTx);        
   transition: color 0.5s ease;  
 }
-
 #score {
   font-weight: 500;
 }
-
+@keyframes levelUpFlash {
+  0% { 
+    transform: scale(1); 
+    filter: brightness(1); 
+  }
+  50% { 
+    transform: scale(1.4); 
+    filter: brightness(2); 
+    text-shadow: 0 0 15px currentColor;
+  }
+  100% { 
+    transform: scale(1); 
+    filter: brightness(1); 
+  }
+}
+.level-up-anim {
+  animation: levelUpFlash 0.5s ease-in-out;
+  display: inline-block;
+}
 .score-label {
   font-weight: 700;   
   opacity: 0.8;
@@ -127,7 +141,25 @@ body{
   left: 3rem;
   background-color: var(--colorTx);
   transition: background-color 0.5s ease;
+  z-index: 10;
 }
+
+.trail {
+  position: absolute;
+  width: 2rem;
+  height: 2rem;
+  opacity: 0.4;
+  filter:blur(2px);
+  pointer-events: none;
+  z-index: 0;
+  animation: fadeTrail 0.3s linear forwards;
+}
+
+@keyframes fadeTrail {
+  0% { transform: scale(1); opacity: 0.3;}
+  100% { transform: scale(0.5); opacity: 0; }
+}
+
 
 .block{
   width: 100%;
@@ -169,65 +201,4 @@ body{
   outline:none;
   color: var(--colorTx);
   font-size: 4.1rem;
-}
-
-
-
-
-.cube{
-  --size: 150px;
-  --cubeColor: #d4d4d4;
-  --scubeColor: #3a3a3a;
-
-  position: relative;
-  width: var(--size);
-  height: var(--size);
-  margin-top: auto;
-  margin-bottom: auto;
-  transform-style: preserve-3d;
-  transform: rotateX(-30deg);
-  animation: animate 4s linear infinite;
-}
-@keyframes animate {
-  0%{
-    transform: rotateX(-30deg) rotateY(0deg);
-  }
-  100%{
-    transform: rotateX(-30deg) rotateY(360deg);
-  }
-}
-.cube div{
-  position: absolute;
-  top: 0;left:0;
-  width: 100%;
-  height: 100%;
-  transform-style: preserve-3d;
-}
-.cube div span{
-  position: absolute;
-  top: 0;left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient( var(--cubeColor),var(--scubeColor));
-  transform: rotateY(calc(90deg * var(--i))) translateZ(calc(var(--size) / 2));
-}
-.top{
-  position: absolute;
-  top: 0;left: 0;
-  background: var(--cubeColor);
-  width: var(--size);
-  height: var(--size);
-  transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
-}
-.top::before{
-  content: '';
-  position: absolute;
-  top: 0;left: 0;
-  width: var(--size);
-  height: var(--size);
-  transform: translateZ(calc(var(--size) * -1.5));
-  filter: blur(130px);
-  background: var(--cubeColor);
-  box-shadow: 0 0 120px var(--cubeColor); /
-
 }

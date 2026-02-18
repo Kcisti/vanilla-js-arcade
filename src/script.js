@@ -14,39 +14,75 @@ const DOM = {
     gameButtLeft: document.querySelector('#gameButtonLeft'),
 };
 
+const gameSkins = [
+    { color: '#d4d4d4', scolor: '#3a3a3a' }, // 0
+    { color: '#00e5ff', scolor: '#008b9e' }, // 100
+    { color: '#2979ff', scolor: '#0043bd' }, // 200
+    { color: '#651fff', scolor: '#3b00ab' }, // 300
+    { color: '#f50057', scolor: '#960035' }, // 400
+    { color: '#ff1744', scolor: '#9e0024' }, // 500
+    { color: '#ff9100', scolor: '#9e5a00' }, // 600
+    { color: '#ffea00', scolor: '#9e9100' }, // 700
+    { color: '#76ff03', scolor: '#429e00' }, // 800
+    { color: '#00e676', scolor: '#008b46' }  // 900
+];
 
-const savedMaxScore = localStorage.getItem('cubeMaxScore') || 0;
-DOM.maxScoreDisplay.innerText = `MAX SCORE: ${savedMaxScore.toString().padStart(6, '0')}`;
+const gameMusic = new Audio('src/track.mp3'); 
+gameMusic.loop = true; 
 
+let selectedSkinIndex = parseInt(localStorage.getItem('cubeSkinIndex')) || 0;
 
-function updateCubeAppearance(score) {
-    const cube = document.querySelector('.cube');
-    let color = '#d4d4d4';
-    let scolor = '#3a3a3a';
+function buildSkinSelector() {
+    const maxScore = parseInt(localStorage.getItem('cubeMaxScore') || 0);
+    const unlockedLevels = Math.min(9, Math.floor(maxScore / 100)); 
 
-    if (score > 900) {
-        color = '#6d24cc'; 
-        scolor = '#340b69ff';
-    } else if (score > 750) {
-        color = '#2426cc'; 
-        scolor = '#090a57ff';
-    } else if (score > 250) {
-        color = '#6cd15d'; 
-        scolor = '#3c7534ff';
-    } else if (score > 250) {
-        color = '#b70202'; 
-        scolor = '#430101ff';
+    if (selectedSkinIndex > unlockedLevels) {
+        selectedSkinIndex = unlockedLevels;
     }
+    
+    const skinContainer = document.getElementById('skinSelector');
+    if (!skinContainer) return;
+    skinContainer.innerHTML = ''; 
 
-    if(cube) {
-        cube.style.setProperty('--cubeColor', color);
-        cube.style.setProperty('--scubeColor', scolor);
+    for (let i = 0; i <= unlockedLevels; i++) {
+        const btn = document.createElement('div');
+        btn.className = 'skin-btn';
+        btn.style.backgroundColor = gameSkins[i].color;
+        btn.style.color = gameSkins[i].color;
+
+        if (i === selectedSkinIndex) {
+            btn.classList.add('selected');
+            updateCubeColor(i);
+        }
+
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.skin-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            selectedSkinIndex = i; 
+
+            localStorage.setItem('cubeSkinIndex', selectedSkinIndex);
+
+            updateCubeColor(i);
+            
+            if ("vibrate" in navigator) navigator.vibrate(20); 
+        });
+
+        skinContainer.appendChild(btn);
     }
 }
 
+function updateCubeColor(index) {
+    const cube = document.querySelector('.cube');
+    if(cube) {
+        cube.style.setProperty('--cubeColor', gameSkins[index].color);
+        cube.style.setProperty('--scubeColor', gameSkins[index].scolor);
+    }
+}
 
-updateCubeAppearance(savedMaxScore);
+buildSkinSelector();
 
+const savedMaxScore = localStorage.getItem('cubeMaxScore') || 0;
+DOM.maxScoreDisplay.innerText = `MAX SCORE: ${savedMaxScore.toString().padStart(6, '0')}`;
 
 DOM.home.style.display = 'none';
 DOM.game.style.display = 'none';
@@ -70,25 +106,13 @@ function moveCharacter(direction) {
 
 DOM.gameButtRight.addEventListener('mousedown', () => (isMovingRight = true));
 DOM.gameButtRight.addEventListener('mouseup', () => (isMovingRight = false));
-DOM.gameButtRight.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  isMovingRight = true;
-});
-DOM.gameButtRight.addEventListener('touchend', (e) => {
-  e.preventDefault();
-  isMovingRight = false;
-});
+DOM.gameButtRight.addEventListener('touchstart', (e) => { e.preventDefault(); isMovingRight = true; });
+DOM.gameButtRight.addEventListener('touchend', (e) => { e.preventDefault(); isMovingRight = false; });
 
 DOM.gameButtLeft.addEventListener('mousedown', () => (isMovingLeft = true));
 DOM.gameButtLeft.addEventListener('mouseup', () => (isMovingLeft = false));
-DOM.gameButtLeft.addEventListener('touchstart', (e) => {
-  e.preventDefault();
-  isMovingLeft = true;
-});
-DOM.gameButtLeft.addEventListener('touchend', (e) => {
-  e.preventDefault();
-  isMovingLeft = false;
-});
+DOM.gameButtLeft.addEventListener('touchstart', (e) => { e.preventDefault(); isMovingLeft = true; });
+DOM.gameButtLeft.addEventListener('touchend', (e) => { e.preventDefault(); isMovingLeft = false; });
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'ArrowRight') isMovingRight = true;
@@ -110,12 +134,38 @@ function playGame() {
   let counter = 0;
   let currentBlocks = [];
   let blocks;
-  let currentLevelColor = '#d4d4d4'; 
+  let currentLevelColor = gameSkins[selectedSkinIndex].color;
   let blockSpeed = 0.5;
+  
+  let lastLevelReached = 0; 
 
   DOM.score.innerText = "000000";
   DOM.score.style.color = currentLevelColor;
   DOM.game.style.borderColor = currentLevelColor;
+  DOM.character.style.backgroundColor = currentLevelColor;
+  DOM.game_ui.style.color = currentLevelColor;
+  
+  if(DOM.gameButtLeft && DOM.gameButtRight) {
+      DOM.gameButtLeft.style.color = currentLevelColor;
+      DOM.gameButtRight.style.color = currentLevelColor;
+  }
+
+  let trailInterval = setInterval(() => {
+    const charTop = window.getComputedStyle(DOM.character).getPropertyValue('top');
+    const charLeft = window.getComputedStyle(DOM.character).getPropertyValue('left');
+    
+    const trail = document.createElement('div');
+    trail.setAttribute('class', 'trail');
+    trail.style.top = charTop;
+    trail.style.left = charLeft;
+    trail.style.backgroundColor = currentLevelColor; 
+    
+    DOM.game.appendChild(trail);
+
+    setTimeout(() => {
+      trail.remove();
+    }, 400);
+  }, 40);
 
   function updateGameColors(newColor) {
       currentLevelColor = newColor;
@@ -131,6 +181,14 @@ function playGame() {
       activeBlocks.forEach(block => {
           block.style.backgroundColor = currentLevelColor;
       });
+
+      DOM.score.classList.remove('level-up-anim'); 
+      void DOM.score.offsetWidth; 
+      DOM.score.classList.add('level-up-anim');
+
+      if ("vibrate" in navigator) {
+          navigator.vibrate(80);
+      }
   }
 
   blocks = setInterval(() => {
@@ -176,10 +234,18 @@ function playGame() {
           localStorage.setItem('cubeMaxScore', currentScore);
       }
 
+      if ("vibrate" in navigator) {
+          navigator.vibrate(200);
+      }
+
+      gameMusic.pause();
+
       alert(`Game Lost. Score: ${counter - 9}`);
+      clearInterval(trailInterval);
       clearInterval(blocks);
       location.reload();
     }
+    
     if (counter - 9 == 1000) {
       const currentScore = counter - 9;
       const bestScore = parseInt(localStorage.getItem('cubeMaxScore') || 0);
@@ -188,27 +254,32 @@ function playGame() {
           localStorage.setItem('cubeMaxScore', currentScore);
       }
 
+      if ("vibrate" in navigator) {
+        navigator.vibrate([150, 50, 150, 50, 300]);
+      }
+
+      gameMusic.pause();
+
       alert(`Game Win. Score: ${counter - 9}`);
+      clearInterval(trailInterval);
       clearInterval(blocks);
       location.reload();
     }
 
     const score = counter - 9;
-    if (score == 250) { 
-        updateGameColors('#b70202'); 
-        blockSpeed = 0.6; 
-    }
-    if (score == 500) { 
-        updateGameColors('#6cd15d'); 
-        blockSpeed = 0.75; 
-    }
-    if (score == 750) { 
-        updateGameColors('#2426cc'); 
-        blockSpeed = 0.9; 
-    }
-    if (score == 900) { 
-        updateGameColors('#6d24cc'); 
-        blockSpeed = 1.1;
+    
+    let currentLevelIndex = Math.floor(score / 100);
+
+    if (currentLevelIndex > lastLevelReached && currentLevelIndex <= 9) {
+        
+        blockSpeed = 0.5 + (currentLevelIndex * 0.1); 
+        let displayColorIndex = Math.max(currentLevelIndex, selectedSkinIndex);
+        
+        updateGameColors(gameSkins[displayColorIndex].color);
+        
+        gameMusic.playbackRate = 1.0 + (currentLevelIndex * 0.15);
+
+        lastLevelReached = currentLevelIndex;
     }
 
     for (let i = 0; i < currentBlocks.length; i++) {
@@ -265,6 +336,9 @@ function startGame(){
     DOM.game.style.marginLeft = '25%';
   }
   
+  gameMusic.playbackRate = 1.0; 
+  gameMusic.play().catch(e => console.log("Errore audio:", e));
+
   playGame();
 }
 
