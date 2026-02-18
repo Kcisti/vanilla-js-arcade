@@ -42,8 +42,20 @@ You can play it directly in your browser without any build tools:
 3. Open `index.html` in any modern web browser.
 4. Click **START**.
 
-## 📱 Android Version
-An APK build (wrapped via Apache Cordova/WebView) is available in the [Releases](https://github.com/Kcisti/cube-fall-js/releases) section. (Note: Ensure WebView supports the Vibration API for the full experience).
+## 📱 Compatibility & Installation
+
+Because this game relies on native web APIs, the experience varies slightly depending on your device and operating system.
+
+### 🍏 iOS (iPhone / iPad)
+Apple strictly restricts the Web Vibration API on Safari, so **haptic feedback will not work on iOS devices**. However, you can still install the game natively to play it in full-screen mode without the browser UI!
+* **How to install on iOS:** Open the game link in **Safari** -> Tap the **Share** button (square with an arrow) -> Scroll down and select **"Add to Home Screen"**.
+
+### 🤖 Android
+The game is fully supported on Android browsers (Chrome, Edge, Firefox) and takes full advantage of the **Vibration API** for immersive haptic feedback during level-ups and game overs.
+* **How to install on Android:** You can either download the APK from the [Releases] tab, or open the web link in Chrome and select **"Add to Home screen"** from the browser menu.
+
+### 💻 Desktop (PC / Mac)
+The game is fully playable using keyboard controls (`Left/Right Arrows`). Naturally, physical vibration is not supported on desktop hardware, but visual screen-shake effects remain active to guarantee the "game juice".
 
 ## 👨‍💻 Author
 **Kcisti** - *Developer & CS Student*
