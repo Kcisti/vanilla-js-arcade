@@ -1,41 +1,49 @@
 # 🔲 Cube Fall Arcade
 
 > A fast-paced "Fall Down" style arcade game built with Vanilla JavaScript.
-> Originally started as a learning experiment 7 years ago, refactored into a responsive web app.
+> Originally started as a learning experiment 7 years ago, refactored into a responsive, feature-rich web app.
 
 ![Language](https://img.shields.io/badge/Language-Vanilla%20JS-yellow.svg)
 ![Style](https://img.shields.io/badge/Style-Retro%20Arcade-purple.svg)
 ![Status](https://img.shields.io/badge/Status-Playable-green.svg)
 
 ## 🎮 The Game
-The goal is simple: survive as long as possible.
+The goal is simple: survive as long as possible and reach 1000 points.
 Control the cube to fall through the holes in the rising platforms. If you hit the top of the screen, it's Game Over.
 
-### Features
-* **Dynamic Difficulty:** The character changes color as you progress (Red -> Green -> Blue -> Purple).
-* **Cross-Platform Controls:**
-    * 💻 **Desktop:** Use `Left Arrow` and `Right Arrow`.
-    * 📱 **Mobile:** Touch controls (Left/Right side of screen).
-* **Zero Dependencies:** Built entirely with native HTML5, CSS3, and JavaScript logic. No game engines used.
+### ✨ Key Features
+* **10 Progressive Levels:** The game dynamically increases in speed and changes color palette every 100 points, ranging from a calm Gray to a frantic Emerald Green.
+* **Unlockable Skins:** Reaching new score milestones unlocks new permanent colors for your cube. Equip your favorite skin from the Home Menu!
+* **Dynamic Audio:** The game soundtrack dynamically speeds up (`playbackRate`) as you progress through the levels, increasing the tension.
+* **Juicy Visual Effects:** Includes a smooth blurry motion trail for the character, screen shake on level-ups, and pulsating UI elements.
+* **Haptic Feedback:** Native device vibration integration (Android) for menu clicks, level-ups, game overs, and victories.
+* **Persistent Progression:** High scores and equipped skins are automatically saved in the browser using `localStorage`.
+
+### 🕹️ Controls (Cross-Platform)
+* 💻 **Desktop:** Use `Left Arrow` and `Right Arrow` keys.
+* 📱 **Mobile:** Touch controls (Left/Right side of the screen) or dedicated on-screen buttons.
 
 ## 🛠️ Technical Details
-This project represents my journey into understanding the **DOM** and **Game Loops**.
+This project represents a journey into understanding the **DOM** and **Game Loops**.
 Unlike modern canvas-based games, this engine runs on pure DOM manipulation, calculating collisions and movement via absolute positioning and coordinate tracking.
 
 **Tech Stack:**
-* **Core:** JavaScript (ES6 features adapted for web).
-* **Styling:** CSS3 with custom animations (`slowdisappearance`) and responsive units (`rem`).
-* **Structure:** Semantic HTML5.
+* **Core:** Vanilla JavaScript (ES6).
+* **Storage:** `localStorage` API for game state persistency.
+* **Hardware API:** `Navigator.vibrate()` for haptic feedback.
+* **Media:** HTML5 Audio API for dynamic pitch/speed manipulation.
+* **Styling:** CSS3 with custom keyframe animations, CSS variables, and responsive units (`rem`).
 
 ## 🚀 How to Run
-You can play it directly in your browser:
+You can play it directly in your browser without any build tools:
 
-1.  Clone the repository.
-2.  Open `index.html`.
-3.  Click **START**.
+1. Clone the repository.
+2. **Important:** Add an audio file named `track.mp3` inside the `src/` folder for the dynamic music to work.
+3. Open `index.html` in any modern web browser.
+4. Click **START**.
 
 ## 📱 Android Version
-An APK build (wrapped via Apache Cordova/WebView) is available in the [Releases](https://github.com/Kcisti/cube-fall-js/releases) section.
+An APK build (wrapped via Apache Cordova/WebView) is available in the [Releases](https://github.com/Kcisti/cube-fall-js/releases) section. (Note: Ensure WebView supports the Vibration API for the full experience).
 
 ## 👨‍💻 Author
 **Kcisti** - *Developer & CS Student*
